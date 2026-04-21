@@ -1,65 +1,102 @@
 import streamlit as st
 import os
-from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from openai import OpenAI
 
-# Load API key
-load_dotenv()
+# ==============================
+# 🔐 API KEY
+# ==============================
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Initialize LLM
-llm = ChatOpenAI(
-    model="gpt-4o-mini",
-    api_key=os.getenv("OPENAI_API_KEY")
+# ==============================
+# 🎨 PAGE CONFIG
+# ==============================
+st.set_page_config(
+    page_title="Sureka AI Assistant",
+    page_icon="🎨",
+    layout="centered"
 )
 
-# ---------------- UI DESIGN ---------------- #
-
-st.set_page_config(page_title="Sureka AI", page_icon="🎨", layout="centered")
-
+# ==============================
+# 🎨 CUSTOM CSS (MOBILE FIX)
+# ==============================
 st.markdown("""
-    <style>
-    body {
-        background-color: #0e1117;
-    }
-    .stTextInput>div>div>input {
-        background-color: #1c1f26;
-        color: white;
-        border-radius: 10px;
-    }
-    .stButton>button {
-        background: linear-gradient(90deg, #6C63FF, #9C27B0);
-        color: white;
-        border-radius: 10px;
-        padding: 10px 20px;
-        font-weight: bold;
-    }
-    .stButton>button:hover {
-        background: linear-gradient(90deg, #9C27B0, #6C63FF);
-    }
-    </style>
+<style>
+html, body, [class*="css"] {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+input {
+    font-size: 16px !important;
+}
+
+button {
+    height: 48px !important;
+    border-radius: 10px !important;
+}
+
+.stTextInput > div > div > input {
+    padding: 12px !important;
+    border-radius: 10px !important;
+}
+
+.big-title {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    color: #7b61ff;
+}
+
+.subtitle {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.response-box {
+    background: linear-gradient(90deg, #00c853, #69f0ae);
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 15px;
+    color: black;
+    font-size: 16px;
+}
+</style>
 """, unsafe_allow_html=True)
 
-# Title
-st.markdown("""
-<h1 style='text-align:center; color:#6C63FF;'>🎨 Sureka Designz AI</h1>
-<p style='text-align:center; color:gray;'>Instant replies for your design needs ⚡</p>
-""", unsafe_allow_html=True)
+# ==============================
+# 🎯 HEADER
+# ==============================
+st.markdown('<div class="big-title">🎨 Sureka Designz AI</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Get instant design price & replies ⚡</div>', unsafe_allow_html=True)
 
-st.markdown("---")
+st.divider()
 
-# ---------------- INPUT ---------------- #
+# ==============================
+# 💬 INPUT + BUTTON (MOBILE FIX)
+# ==============================
+st.markdown("### 💬 Ask anything (logo, website, SEO, etc)")
 
-user_input = st.text_input("💬 Ask anything (logo, website, SEO, etc)")
+col1, col2 = st.columns([4,1])
 
-# ---------------- BUTTON ---------------- #
+with col1:
+    user_input = st.text_input("", placeholder="Type your requirement...")
 
-if st.button("🚀 Get Reply"):
+with col2:
+    ask_btn = st.button("🚀")
 
-    if user_input:
+# ==============================
+# 🤖 AI RESPONSE
+# ==============================
+if ask_btn and user_input:
 
-        # Prompt
-        prompt = f"""
-You are a smart AI assistant for Sureka Designz.
+    with st.spinner("Thinking..."):
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """
+You are an AI assistant for Sureka Designz.
 
 Business Details:
 - Logo Design: ₹1999
@@ -73,28 +110,30 @@ Business Details:
 - Flex Banner: ₹499
 - Pamphlet Design: ₹1000
 
-Working Hours: 10 AM to 8 PM
+Working Hours: 10 AM - 8 PM
 
-Instructions:
-- Reply in simple English + little Tamil style (friendly tone)
-- If user asks price → give price clearly
-- If service not listed → say “Yes we can do, please share details”
-- Always end with asking name + contact
-
-User Question:
-{user_input}
+Rules:
+- Be friendly and professional
+- Always try to convert user into a lead
+- Mention price clearly if asked
+- If unclear, ask follow-up question
+- Keep response short and engaging
 """
+                },
+                {"role": "user", "content": user_input}
+            ]
+        )
 
-        # AI response
-        response = llm.invoke(prompt)
+        reply = response.choices[0].message.content
 
-        # Output
-        st.success(response.content)
+    st.markdown(f'<div class="response-box">{reply}</div>', unsafe_allow_html=True)
 
-    else:
-        st.warning("Please enter something 🙌")
+st.divider()
 
-# ---------------- FOOTER ---------------- #
-
-st.markdown("---")
-st.markdown("<p style='text-align:center; color:gray;'>⚡ Powered by Sureka Designz</p>", unsafe_allow_html=True)
+# ==============================
+# 🚀 FOOTER
+# ==============================
+st.markdown(
+    "<center>⚡ Powered by Sureka Designz</center>",
+    unsafe_allow_html=True
+)
