@@ -2,8 +2,14 @@ import streamlit as st
 import os
 from openai import OpenAI
 
+# ==============================
+# 🔐 API KEY
+# ==============================
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+# ==============================
+# 🎨 PAGE CONFIG
+# ==============================
 st.set_page_config(
     page_title="Sureka AI Assistant",
     page_icon="🎨",
@@ -11,17 +17,28 @@ st.set_page_config(
 )
 
 # ==============================
-# 🎨 CUSTOM CSS (SPACING FIX)
+# 🎨 CUSTOM CSS (FULL FIX)
 # ==============================
 st.markdown("""
 <style>
 
-/* Remove top space */
+/* Hide Streamlit branding */
+footer {visibility: hidden;}
+#MainMenu {visibility: hidden;}
+header {visibility: hidden;}
+[data-testid="stDecoration"] {display: none;}
+
+/* FIX TITLE CUT */
 .block-container {
-    padding-top: 1.5rem !important;
+    padding-top: 3.5rem !important;
 }
 
-/* Title */
+/* FONT */
+html, body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* TITLE */
 .big-title {
     font-size: 32px;
     font-weight: bold;
@@ -30,33 +47,33 @@ st.markdown("""
     margin-bottom: 5px;
 }
 
-/* Subtitle */
+/* SUBTITLE */
 .subtitle {
     text-align: center;
     color: #aaa;
     margin-bottom: 5px;
 }
 
-/* Divider closer */
+/* DIVIDER */
 hr {
     margin-top: 5px !important;
     margin-bottom: 10px !important;
 }
 
-/* Ask section */
+/* ASK SECTION */
 .ask-title {
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
-/* Input */
+/* INPUT */
 .stTextInput > div > div > input {
     padding: 12px !important;
     border-radius: 12px !important;
     font-size: 16px !important;
 }
 
-/* Button */
+/* BUTTON */
 .stButton > button {
     background: linear-gradient(90deg, #7b61ff, #9c27b0);
     color: white;
@@ -76,6 +93,7 @@ hr {
     }
 }
 
+/* RESPONSE */
 .response-box {
     background: linear-gradient(90deg, #00c853, #69f0ae);
     padding: 15px;
@@ -88,7 +106,7 @@ hr {
 """, unsafe_allow_html=True)
 
 # ==============================
-# HEADER (TIGHT)
+# 🎯 HEADER
 # ==============================
 st.markdown('<div class="big-title">🎨 Sureka Designz AI</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Get instant design price & replies ⚡</div>', unsafe_allow_html=True)
@@ -96,7 +114,7 @@ st.markdown('<div class="subtitle">Get instant design price & replies ⚡</div>'
 st.divider()
 
 # ==============================
-# INPUT (MOVED UP)
+# 💬 INPUT
 # ==============================
 st.markdown('<div class="ask-title">💬 Ask anything (logo, website, SEO, etc)</div>', unsafe_allow_html=True)
 
@@ -105,9 +123,10 @@ user_input = st.text_input("", placeholder="Type your requirement...")
 ask_btn = st.button("🚀 Get Quote", use_container_width=True)
 
 # ==============================
-# AI RESPONSE
+# 🤖 AI RESPONSE
 # ==============================
 if ask_btn and user_input:
+
     with st.spinner("Thinking..."):
         response = client.chat.completions.create(
             model="gpt-4o-mini",
@@ -129,7 +148,13 @@ Business Details:
 - Flex Banner: ₹499
 - Pamphlet Design: ₹1000
 
-Keep answers short, friendly, and sales-focused.
+Working Hours: 10 AM - 8 PM
+
+Rules:
+- Be friendly and professional
+- Always try to convert user into a lead
+- Mention price clearly if asked
+- Keep response short and engaging
 """
                 },
                 {"role": "user", "content": user_input}
@@ -140,4 +165,10 @@ Keep answers short, friendly, and sales-focused.
 
     st.markdown(f'<div class="response-box">{reply}</div>', unsafe_allow_html=True)
 
-st.markdown("<center>⚡ Powered by Sureka Designz</center>", unsafe_allow_html=True)
+# ==============================
+# 🚀 FOOTER
+# ==============================
+st.markdown(
+    "<center>⚡ Sureka AI • Powered by Sureka Designz</center>",
+    unsafe_allow_html=True
+)
