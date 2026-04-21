@@ -17,7 +17,7 @@ st.set_page_config(
 )
 
 # ==============================
-# 🎨 CUSTOM CSS (MOBILE FIX)
+# 🎨 CUSTOM CSS
 # ==============================
 st.markdown("""
 <style>
@@ -25,33 +25,39 @@ html, body, [class*="css"] {
     font-family: 'Segoe UI', sans-serif;
 }
 
-input {
+/* Input */
+.stTextInput > div > div > input {
+    padding: 14px !important;
+    border-radius: 12px !important;
     font-size: 16px !important;
 }
 
-button {
-    height: 48px !important;
-    border-radius: 10px !important;
+/* Button */
+.stButton > button {
+    background: linear-gradient(90deg, #7b61ff, #9c27b0);
+    color: white;
+    font-weight: bold;
+    border-radius: 12px;
+    height: 50px;
+    font-size: 16px;
 }
 
-.stTextInput > div > div > input {
-    padding: 12px !important;
-    border-radius: 10px !important;
-}
-
+/* Title */
 .big-title {
-    font-size: 32px;
+    font-size: 34px;
     font-weight: bold;
     text-align: center;
     color: #7b61ff;
 }
 
+/* Subtitle */
 .subtitle {
     text-align: center;
     color: #aaa;
     margin-bottom: 20px;
 }
 
+/* Response box */
 .response-box {
     background: linear-gradient(90deg, #00c853, #69f0ae);
     padding: 15px;
@@ -72,17 +78,13 @@ st.markdown('<div class="subtitle">Get instant design price & replies ⚡</div>'
 st.divider()
 
 # ==============================
-# 💬 INPUT + BUTTON (MOBILE FIX)
+# 💬 INPUT SECTION
 # ==============================
 st.markdown("### 💬 Ask anything (logo, website, SEO, etc)")
 
-col1, col2 = st.columns([4,1])
+user_input = st.text_input("", placeholder="Type your requirement...")
 
-with col1:
-    user_input = st.text_input("", placeholder="Type your requirement...")
-
-with col2:
-    ask_btn = st.button("🚀")
+ask_btn = st.button("🚀 Get Quote", use_container_width=True)
 
 # ==============================
 # 🤖 AI RESPONSE
