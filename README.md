@@ -1,118 +1,45 @@
-# 🧠 Explain Like I'm 5 AI
+# 🎨 Sureka Designz AI Assistant
 
-A simple GenAI-powered web app that explains complex topics in a clear and easy-to-understand way using AI.
-
----
-
-## 🚀 Live Demo
-*(Add later if deployed)*
+An AI-powered auto-reply assistant for businesses to instantly respond to customer queries 💬⚡
 
 ---
 
-## 💡 Features
+## 🚀 Features
 
-- 🧒 Kid-level explanations (super simple)
-- 📘 Beginner-level explanations (clear understanding)
-- 🎓 Expert-level explanations (technical depth)
-- ⚡ Fast AI-powered responses
-- 🎨 Clean and modern UI
+- 🤖 Instant replies for customer messages  
+- 💰 Shows pricing automatically  
+- 🌐 Works for all services (logo, website, SEO, etc.)  
+- 📱 Mobile-friendly app  
+- 📩 Captures customer leads (name & phone)  
+
+---
+
+## 💼 Services & Pricing
+
+- Logo Design – ₹1999  
+- Social Media Design – ₹2500 (min 10 posts)  
+- Website Design – ₹7999+  
+- Brochure Design – ₹1999 (min 4 pages)  
+- Print Design – ₹499  
+- SEO – ₹15000  
+- UI/UX Design – ₹12000  
+- Video Editing – ₹1000 (30 sec)  
+- Flex Banner – ₹499  
+- Pamphlet Design – ₹1000  
 
 ---
 
 ## 🛠️ Tech Stack
 
-- Python
-- Streamlit
-- LangChain
-- OpenAI (GPT-4o-mini)
-- Prompt Engineering
+- Python  
+- Streamlit  
+- LangChain  
+- OpenAI  
 
 ---
 
-## 📸 Preview
+## ⚙️ Run Locally
 
-*(Add screenshot here)*
-
----
-
-## ⚙️ Installation
-
-### 1. Clone the repository
-
-git clone https://github.com/your-username/genai.git
-cd genai
-
----
-
-### 2. Create virtual environment
-
-python -m venv venv
-venv\Scripts\activate   # Windows
-
----
-
-### 3. Install dependencies
-
+```bash
 pip install -r requirements.txt
-
----
-
-### 4. Add API Key
-
-Create a `.env` file:
-
-OPENAI_API_KEY=your_api_key_here
-
----
-
-### 5. Run the app
-
-streamlit run app.py
-
----
-
-## 🧠 How it works
-
-- User enters a topic
-- Selects explanation level (Kid / Beginner / Expert)
-- App sends structured prompt to AI
-- AI returns simplified explanation
-
----
-
-## 📚 Learnings
-
-- Prompt Engineering
-- LLM Integration
-- Building GenAI apps with real UI
-- Using LangChain with OpenAI
-
----
-
-## 🚀 Future Improvements
-
-- Chat-style UI
-- Copy button
-- History tracking
-- Voice input/output
-- Deployment (Streamlit Cloud)
-
----
-
-## 🔐 Note
-
-- `.env` file is not included for security reasons
-- Never expose your API key publicly
-
----
-
-## 👨‍💻 Author
-
-Suresh R  
-GenAI Learner | Builder 🚀  
-
----
-
-## ⭐ Support
-
-If you like this project, give it a ⭐ on GitHub!
+streamlit run sureka_ai.py
