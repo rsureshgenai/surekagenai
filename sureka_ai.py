@@ -95,11 +95,12 @@ hr {
 
 /* RESPONSE */
 .response-box {
-    background: linear-gradient(90deg, #00c853, #69f0ae);
+    background: #F2DDE3;
     padding: 15px;
     border-radius: 12px;
     margin-top: 10px;
-    color: black;
+    color: #333;
+    border: 1px solid #e5bfc8;
 }
 
 </style>
