@@ -17,7 +17,7 @@ st.set_page_config(
 )
 
 # ==============================
-# 🎨 CUSTOM CSS
+# 🎨 CUSTOM CSS (MOBILE FIX INCLUDED)
 # ==============================
 st.markdown("""
 <style>
@@ -40,6 +40,16 @@ html, body, [class*="css"] {
     border-radius: 12px;
     height: 50px;
     font-size: 16px;
+}
+
+/* MOBILE FIX: Move button UP */
+@media (max-width: 768px) {
+    .stTextInput {
+        margin-bottom: 5px !important;
+    }
+    .stButton {
+        margin-top: -15px !important;
+    }
 }
 
 /* Title */
