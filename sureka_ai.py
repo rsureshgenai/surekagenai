@@ -2,14 +2,8 @@ import streamlit as st
 import os
 from openai import OpenAI
 
-# ==============================
-# 🔐 API KEY
-# ==============================
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# ==============================
-# 🎨 PAGE CONFIG
-# ==============================
 st.set_page_config(
     page_title="Sureka AI Assistant",
     page_icon="🎨",
@@ -17,17 +11,47 @@ st.set_page_config(
 )
 
 # ==============================
-# 🎨 CUSTOM CSS (MOBILE FIX INCLUDED)
+# 🎨 CUSTOM CSS (SPACING FIX)
 # ==============================
 st.markdown("""
 <style>
-html, body, [class*="css"] {
-    font-family: 'Segoe UI', sans-serif;
+
+/* Remove top space */
+.block-container {
+    padding-top: 1.5rem !important;
+}
+
+/* Title */
+.big-title {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    color: #7b61ff;
+    margin-bottom: 5px;
+}
+
+/* Subtitle */
+.subtitle {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 5px;
+}
+
+/* Divider closer */
+hr {
+    margin-top: 5px !important;
+    margin-bottom: 10px !important;
+}
+
+/* Ask section */
+.ask-title {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 /* Input */
 .stTextInput > div > div > input {
-    padding: 14px !important;
+    padding: 12px !important;
     border-radius: 12px !important;
     font-size: 16px !important;
 }
@@ -42,45 +66,29 @@ html, body, [class*="css"] {
     font-size: 16px;
 }
 
-/* MOBILE FIX: Move button UP */
+/* MOBILE FIX */
 @media (max-width: 768px) {
     .stTextInput {
-        margin-bottom: 5px !important;
+        margin-bottom: 4px !important;
     }
     .stButton {
-        margin-top: -15px !important;
+        margin-top: -10px !important;
     }
 }
 
-/* Title */
-.big-title {
-    font-size: 34px;
-    font-weight: bold;
-    text-align: center;
-    color: #7b61ff;
-}
-
-/* Subtitle */
-.subtitle {
-    text-align: center;
-    color: #aaa;
-    margin-bottom: 20px;
-}
-
-/* Response box */
 .response-box {
     background: linear-gradient(90deg, #00c853, #69f0ae);
     padding: 15px;
     border-radius: 12px;
-    margin-top: 15px;
+    margin-top: 10px;
     color: black;
-    font-size: 16px;
 }
+
 </style>
 """, unsafe_allow_html=True)
 
 # ==============================
-# 🎯 HEADER
+# HEADER (TIGHT)
 # ==============================
 st.markdown('<div class="big-title">🎨 Sureka Designz AI</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Get instant design price & replies ⚡</div>', unsafe_allow_html=True)
@@ -88,19 +96,18 @@ st.markdown('<div class="subtitle">Get instant design price & replies ⚡</div>'
 st.divider()
 
 # ==============================
-# 💬 INPUT SECTION
+# INPUT (MOVED UP)
 # ==============================
-st.markdown("### 💬 Ask anything (logo, website, SEO, etc)")
+st.markdown('<div class="ask-title">💬 Ask anything (logo, website, SEO, etc)</div>', unsafe_allow_html=True)
 
 user_input = st.text_input("", placeholder="Type your requirement...")
 
 ask_btn = st.button("🚀 Get Quote", use_container_width=True)
 
 # ==============================
-# 🤖 AI RESPONSE
+# AI RESPONSE
 # ==============================
 if ask_btn and user_input:
-
     with st.spinner("Thinking..."):
         response = client.chat.completions.create(
             model="gpt-4o-mini",
@@ -122,14 +129,7 @@ Business Details:
 - Flex Banner: ₹499
 - Pamphlet Design: ₹1000
 
-Working Hours: 10 AM - 8 PM
-
-Rules:
-- Be friendly and professional
-- Always try to convert user into a lead
-- Mention price clearly if asked
-- If unclear, ask follow-up question
-- Keep response short and engaging
+Keep answers short, friendly, and sales-focused.
 """
                 },
                 {"role": "user", "content": user_input}
@@ -140,12 +140,4 @@ Rules:
 
     st.markdown(f'<div class="response-box">{reply}</div>', unsafe_allow_html=True)
 
-st.divider()
-
-# ==============================
-# 🚀 FOOTER
-# ==============================
-st.markdown(
-    "<center>⚡ Powered by Sureka Designz</center>",
-    unsafe_allow_html=True
-)
+st.markdown("<center>⚡ Powered by Sureka Designz</center>", unsafe_allow_html=True)
