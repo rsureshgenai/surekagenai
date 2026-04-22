@@ -17,7 +17,7 @@ st.set_page_config(
 )
 
 # ==============================
-# 🎨 CSS
+# 🎨 CUSTOM CSS (FINAL MOBILE FIX)
 # ==============================
 st.markdown("""
 <style>
@@ -51,9 +51,10 @@ header {visibility: hidden;}
 .stTextInput input {
     padding: 12px !important;
     border-radius: 12px !important;
+    font-size: 16px !important;
 }
 
-/* Button */
+/* Main Button */
 .stButton > button {
     background: linear-gradient(90deg, #7b61ff, #9c27b0);
     color: white;
@@ -62,14 +63,7 @@ header {visibility: hidden;}
     font-weight: bold;
 }
 
-/* Mobile fix */
-@media (max-width: 768px) {
-    .stButton {
-        margin-top: -10px !important;
-    }
-}
-
-/* Response */
+/* Response box */
 .response-box {
     background: #F2DDE3;
     padding: 15px;
@@ -77,6 +71,22 @@ header {visibility: hidden;}
     margin-top: 10px;
     color: #333;
     border: 1px solid #e5bfc8;
+}
+
+/* 📱 MOBILE FIX: Sticky buttons */
+@media (max-width: 768px) {
+
+    .stButton {
+        position: sticky;
+        bottom: 70px;
+        z-index: 999;
+    }
+
+    a button {
+        position: sticky;
+        bottom: 10px;
+        z-index: 999;
+    }
 }
 
 </style>
@@ -93,7 +103,7 @@ st.divider()
 # ==============================
 # 💬 INPUT
 # ==============================
-st.markdown("💬 Ask anything (logo, website, SEO, etc)")
+st.markdown("💬 Ask anything (logo, website, SEO, packaging, etc)")
 
 user_input = st.text_input("", placeholder="Type your requirement...")
 
@@ -106,16 +116,15 @@ if ask_btn and user_input:
 
     text = user_input.lower()
 
-    # 🔥 CONTACT DETECTION
+    # 📞 CONTACT QUERY
     if any(word in text for word in ["number", "contact", "phone", "call"]):
         reply = """
 Sure 😊 You can contact us at 📞 9080732938.
 
-Or share your name & number here — our team will call you shortly and assist you 🚀
+We’re available from 10 AM to 8 PM.
+Looking forward to assisting you 🚀
 """
-
     else:
-        # 🤖 AI RESPONSE
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
@@ -124,7 +133,7 @@ Or share your name & number here — our team will call you shortly and assist y
                     "content": """
 You are an AI assistant for Sureka Designz.
 
-Business Details:
+Services & Pricing:
 - Logo Design: ₹1999
 - Social Media Design: ₹2500 (min 10 posts)
 - Website Design: ₹7999+
@@ -133,15 +142,20 @@ Business Details:
 - SEO: ₹15000
 - UI/UX Design: ₹12000
 - Video Editing: ₹1000 (30 sec)
-- Flex Banner: ₹499
+- Flex Banner Design: ₹499
 - Pamphlet Design: ₹1000
+- Product Label Design: ₹699
 
-Working Hours: 10 AM - 8 PM
+IMPORTANT:
+- If user asks for ANY design service not listed:
+  → Say YES we do it
+  → Give approximate starting price
+  → Ask for details
 
 Rules:
-- Be friendly and professional
-- Keep responses short
-- Always try to convert into lead
+- Keep replies short
+- Be friendly
+- Focus on conversion
 """
                 },
                 {"role": "user", "content": user_input}
@@ -150,10 +164,57 @@ Rules:
 
         reply = response.choices[0].message.content
 
+        # 🔥 ADD CTA
+        reply += "\n\n📞 For more details, call us at 9080732938"
+
     # ==============================
     # 💬 SHOW RESPONSE
     # ==============================
     st.markdown(f'<div class="response-box">{reply}</div>', unsafe_allow_html=True)
+
+    # ==============================
+    # 📞 CALL BUTTON
+    # ==============================
+    st.markdown("""
+    <a href="tel:9080732938">
+        <button style="
+            width:100%;
+            background: linear-gradient(90deg, #ff4b2b, #ff416c);
+            color:white;
+            border:none;
+            padding:14px;
+            border-radius:12px;
+            font-size:16px;
+            font-weight:bold;
+            margin-top:10px;
+            cursor:pointer;
+        ">
+        📞 Call Now
+        </button>
+    </a>
+    """, unsafe_allow_html=True)
+
+    # ==============================
+    # 💬 WHATSAPP BUTTON
+    # ==============================
+    st.markdown("""
+    <a href="https://wa.me/919080732938?text=Hi%20I%20need%20design%20service" target="_blank">
+        <button style="
+            width:100%;
+            background: linear-gradient(90deg, #25D366, #128C7E);
+            color:white;
+            border:none;
+            padding:14px;
+            border-radius:12px;
+            font-size:16px;
+            font-weight:bold;
+            margin-top:10px;
+            cursor:pointer;
+        ">
+        💬 Chat on WhatsApp
+        </button>
+    </a>
+    """ , unsafe_allow_html=True)
 
 # ==============================
 # 🚀 FOOTER
