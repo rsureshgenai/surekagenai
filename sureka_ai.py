@@ -17,7 +17,7 @@ st.set_page_config(
 )
 
 # ==============================
-# 🎨 CUSTOM CSS (FINAL MOBILE FIX)
+# 🎨 CUSTOM CSS
 # ==============================
 st.markdown("""
 <style>
@@ -28,7 +28,7 @@ footer {visibility: hidden;}
 header {visibility: hidden;}
 [data-testid="stDecoration"] {display: none;}
 
-/* Fix top spacing */
+/* Top spacing */
 .block-container {
     padding-top: 3.5rem !important;
 }
@@ -54,7 +54,7 @@ header {visibility: hidden;}
     font-size: 16px !important;
 }
 
-/* Main Button */
+/* Button */
 .stButton > button {
     background: linear-gradient(90deg, #7b61ff, #9c27b0);
     color: white;
@@ -63,7 +63,7 @@ header {visibility: hidden;}
     font-weight: bold;
 }
 
-/* Response box */
+/* Response */
 .response-box {
     background: #F2DDE3;
     padding: 15px;
@@ -73,15 +73,13 @@ header {visibility: hidden;}
     border: 1px solid #e5bfc8;
 }
 
-/* 📱 MOBILE FIX: Sticky buttons */
+/* Mobile sticky buttons */
 @media (max-width: 768px) {
-
     .stButton {
         position: sticky;
         bottom: 70px;
         z-index: 999;
     }
-
     a button {
         position: sticky;
         bottom: 10px;
@@ -116,10 +114,10 @@ if ask_btn and user_input:
 
     text = user_input.lower()
 
-    # 📞 CONTACT QUERY
+    # 📞 CONTACT QUERY (NO NUMBER DISPLAY)
     if any(word in text for word in ["number", "contact", "phone", "call"]):
         reply = """
-Sure 😊 You can contact us at 📞 9080732938.
+Sure 😊 You can reach us easily using the options below.
 
 We’re available from 10 AM to 8 PM.
 Looking forward to assisting you 🚀
@@ -163,9 +161,6 @@ Rules:
         )
 
         reply = response.choices[0].message.content
-
-        # 🔥 ADD CTA
-        reply += "\n\n📞 For more details, call us at 9080732938"
 
     # ==============================
     # 💬 SHOW RESPONSE
@@ -214,7 +209,7 @@ Rules:
         💬 Chat on WhatsApp
         </button>
     </a>
-    """ , unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
 # ==============================
 # 🚀 FOOTER
