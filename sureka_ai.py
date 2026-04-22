@@ -17,7 +17,7 @@ st.set_page_config(
 )
 
 # ==============================
-# 🎨 CUSTOM CSS (FULL FIX)
+# 🎨 CSS
 # ==============================
 st.markdown("""
 <style>
@@ -28,72 +28,48 @@ footer {visibility: hidden;}
 header {visibility: hidden;}
 [data-testid="stDecoration"] {display: none;}
 
-/* FIX TITLE CUT */
+/* Fix top spacing */
 .block-container {
     padding-top: 3.5rem !important;
 }
 
-/* FONT */
-html, body {
-    font-family: 'Segoe UI', sans-serif;
-}
-
-/* TITLE */
+/* Title */
 .big-title {
     font-size: 32px;
     font-weight: bold;
     text-align: center;
     color: #7b61ff;
-    margin-bottom: 5px;
 }
 
-/* SUBTITLE */
+/* Subtitle */
 .subtitle {
     text-align: center;
     color: #aaa;
-    margin-bottom: 5px;
 }
 
-/* DIVIDER */
-hr {
-    margin-top: 5px !important;
-    margin-bottom: 10px !important;
-}
-
-/* ASK SECTION */
-.ask-title {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-/* INPUT */
-.stTextInput > div > div > input {
+/* Input */
+.stTextInput input {
     padding: 12px !important;
     border-radius: 12px !important;
-    font-size: 16px !important;
 }
 
-/* BUTTON */
+/* Button */
 .stButton > button {
     background: linear-gradient(90deg, #7b61ff, #9c27b0);
     color: white;
-    font-weight: bold;
     border-radius: 12px;
     height: 50px;
-    font-size: 16px;
+    font-weight: bold;
 }
 
-/* MOBILE FIX */
+/* Mobile fix */
 @media (max-width: 768px) {
-    .stTextInput {
-        margin-bottom: 4px !important;
-    }
     .stButton {
         margin-top: -10px !important;
     }
 }
 
-/* RESPONSE */
+/* Response */
 .response-box {
     background: #F2DDE3;
     padding: 15px;
@@ -117,18 +93,29 @@ st.divider()
 # ==============================
 # 💬 INPUT
 # ==============================
-st.markdown('<div class="ask-title">💬 Ask anything (logo, website, SEO, etc)</div>', unsafe_allow_html=True)
+st.markdown("💬 Ask anything (logo, website, SEO, etc)")
 
 user_input = st.text_input("", placeholder="Type your requirement...")
 
 ask_btn = st.button("🚀 Get Quote", use_container_width=True)
 
 # ==============================
-# 🤖 AI RESPONSE
+# 🤖 RESPONSE LOGIC
 # ==============================
 if ask_btn and user_input:
 
-    with st.spinner("Thinking..."):
+    text = user_input.lower()
+
+    # 🔥 CONTACT DETECTION
+    if any(word in text for word in ["number", "contact", "phone", "call"]):
+        reply = """
+Sure 😊 You can contact us at 📞 9080732938.
+
+Or share your name & number here — our team will call you shortly and assist you 🚀
+"""
+
+    else:
+        # 🤖 AI RESPONSE
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
@@ -153,9 +140,8 @@ Working Hours: 10 AM - 8 PM
 
 Rules:
 - Be friendly and professional
-- Always try to convert user into a lead
-- Mention price clearly if asked
-- Keep response short and engaging
+- Keep responses short
+- Always try to convert into lead
 """
                 },
                 {"role": "user", "content": user_input}
@@ -164,6 +150,9 @@ Rules:
 
         reply = response.choices[0].message.content
 
+    # ==============================
+    # 💬 SHOW RESPONSE
+    # ==============================
     st.markdown(f'<div class="response-box">{reply}</div>', unsafe_allow_html=True)
 
 # ==============================
